@@ -32,6 +32,37 @@ Example Responses:
 
 Add the required logic below to complete the API.
 */
+const express = require('express');
+const app = express();
+
+app.get('/assistant/greet', (req, res) => {
+    const { name } = req.query; 
+
+    if (!name) {
+        return res.status(400).json({
+            error: 'Bad Request: Please provide a valid name as a query parameter.'
+        });
+    }
+
+    const dayOfWeek = new Date().toLocaleString('hi-IN', { weekday: 'long' });
+    let dayMessage;
+
+    switch (dayOfWeek) {
+        case 'Monday':
+            dayMessage = 'Happy Monday! Start your week with energy!';
+            break;
+        case 'Friday':
+            dayMessage = "It's Friday! The weekend is near!";
+            break;
+        default:
+            dayMessage = 'Have a wonderful day!';
+    }
+
+    res.json({
+        welcomeMessage: `Hello, ${name}! Welcome to our assistant app!`,
+        dayMessage: dayMessage
+    });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
