@@ -1,38 +1,39 @@
-// Boilerplate Code for Virtual Assistant API
 const express = require('express');
 const app = express();
 
-/*
-Task:
-You need to build an API for a virtual assistant that provides customized responses.
+// Helper function to get the day-specific message
+const getDayMessage = () => {
+    const daysOfWeek = [
+        "Happy Sunday! Relax and recharge!",
+        "Happy Monday! Start your week with energy!",
+        "Happy Tuesday! Keep going strong!",
+        "Happy Wednesday! You're halfway through the week!",
+        "Happy Thursday! The weekend is near!",
+        "It's Friday! The weekend is here!",
+        "Happy Saturday! Enjoy your day!"
+    ];
+    const today = new Date().getDay(); // Get the current day (0 = Sunday, 6 = Saturday)
+    return daysOfWeek[today];
+};
 
-Requirements:
-1. Create a GET endpoint at "/assistant/greet".
-2. The endpoint should accept a "name" as a query parameter (e.g., /assistant/greet?name=John).
-3. The API should return a JSON response with:
-   a. A personalized greeting using the name provided.
-   b. A cheerful message based on the current day of the week.
+// GET endpoint for /assistant/greet
+app.get('/assistant/greet', (req, res) => {
+    const name = req.query.name; // Retrieve the name from query parameters
+    if (!name) {
+        return res.status(400).json({
+            error: "Please provide a name as a query parameter, e.g., /assistant/greet?name=John"
+        });
+    }
+    const welcomeMessage = `Hello, ${name}! Welcome to our assistant app!`;
+    const dayMessage = getDayMessage();
 
-Example Responses:
-- For Monday:
-  {
-    "welcomeMessage": "Hello, John! Welcome to our assistant app!",
-    "dayMessage": "Happy Monday! Start your week with energy!"
-  }
-- For Friday:
-  {
-    "welcomeMessage": "Hello, John! Welcome to our assistant app!",
-    "dayMessage": "It's Friday! The weekend is near!"
-  }
-- For other days:
-  {
-    "welcomeMessage": "Hello, John! Welcome to our assistant app!",
-    "dayMessage": "Have a wonderful day!"
-  }
+    res.json({
+        welcomeMessage,
+        dayMessage
+    });
+});
 
-Add the required logic below to complete the API.
-*/
-
+// Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Virtual Assistant API is running on http://localhost:${PORT}`);
