@@ -1,38 +1,36 @@
 const express = require('express');
 const app = express();
 
-/*
-Task:
-Create a GET endpoint at "/assistant/greet" to return a personalized greeting and a day-specific message.
-*/
+// Helper function to get the day-specific message
+const getDayMessage = () => {
+    const daysOfWeek = [
+        "Happy Sunday! Relax and recharge!",
+        "Happy Monday! Start your week with energy!",
+        "Happy Tuesday! Keep going strong!",
+        "Happy Wednesday! You're halfway through the week!",
+        "Happy Thursday! The weekend is near!",
+        "It's Friday! The weekend is here!",
+        "Happy Saturday! Enjoy your day!"
+    ];
+    const today = new Date().getDay(); // Get the current day (0 = Sunday, 6 = Saturday)
+    return daysOfWeek[today];
+};
 
-// GET /assistant/greet
+// GET endpoint for /assistant/greet
 app.get('/assistant/greet', (req, res) => {
-    const name = req.query.name || 'Guest'; // Get "name" from query parameter, or use "Guest" as default
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const today = new Date();
-    const currentDay = days[today.getDay()]; // Get the current day of the week
-
-    // Day-specific messages
-    let dayMessage;
-    switch (currentDay) {
-        case 'Monday':
-            dayMessage = "Happy Monday! Start your week with energy!";
-            break;
-        case 'Friday':
-            dayMessage = "It's Friday! The weekend is near!";
-            break;
-        default:
-            dayMessage = "Have a wonderful day!";
+    const name = req.query.name; // Retrieve the name from query parameters
+    if (!name) {
+        return res.status(400).json({
+            error: "Please provide a name as a query parameter, e.g., /assistant/greet?name=John"
+        });
     }
+    const welcomeMessage = `Hello, ${name}! Welcome to our assistant app!`;
+    const dayMessage = getDayMessage();
 
-    // Response object
-    const response = {
-        welcomeMessage: `Hello, ${name}! Welcome to our assistant app!`,
-        dayMessage: dayMessage,
-    };
-
-    res.json(response); // Send JSON response
+    res.json({
+        welcomeMessage,
+        dayMessage
+    });
 });
 
 // Start the server
