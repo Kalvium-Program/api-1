@@ -26,12 +26,39 @@ Example Responses:
   }
 - For other days:
   {
-    "welcomeMessage": "Hello, John! Welcome to our assistant app!",
+    "welcomeMessage": "Hello, John! C",
     "dayMessage": "Have a wonderful day!"
   }
 
 Add the required logic below to complete the API.
 */
+const getDayMessage = function (){
+  const getDayOfWeek = new Date().getDay()
+  switch(getDayOfWeek){
+    case 1:
+      return "Happy Monday! Start your week with energy!";
+    case 5:
+      return "It's Friday! The weekend is near!";
+    default:
+      return "Have a wonderful day!"
+  }
+}
+
+app.get('/assistant/greet',(req,res)=>{
+  const name = req.query.name
+  if(!name){
+    return res.status(400).json({error:"Name parameter is required"})
+  }
+
+  const welcomeMessage = `Hello, ${name}! Welcome to our assistant app!`
+  const dayMessage = getDayMessage()
+  res.json({
+    welcomeMessage,
+    dayMessage
+
+})
+})
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
