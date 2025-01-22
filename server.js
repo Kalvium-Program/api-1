@@ -32,8 +32,33 @@ Example Responses:
 
 Add the required logic below to complete the API.
 */
+app.get('/assistant/greet', (req, res) => {
+  const name = req.query.name;
+  // const currentDay = new Date().getDay();
+
+  const currentDay = new Date().getDay();
+  const dayMessages = [
+    "Happy Monday! Start your week with energy!",
+    "Have a productive Tuesday!",
+    "It's Wednesday! Keep pushing through the week!",
+    "Happy Thursday! The weekend is almost here!",
+    "It's Friday! The weekend is near!",
+    "Enjoy your Saturday to the fullest!",
+    "Relax and recharge this Sunday!"
+  ];
+  
+  let welcomeMessage = `Hello, ${name}! Welcome to our assistant app!`;
+  const dayMessage = dayMessages[currentDay] || "Have a wonderful day!";
+  
+  res.json({
+      welcomeMessage,
+      dayMessage
+  });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Virtual Assistant API is running on http://localhost:${PORT}`);
 });
+
+
