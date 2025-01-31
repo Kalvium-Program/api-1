@@ -1,39 +1,41 @@
-// Boilerplate Code for Virtual Assistant API
 const express = require('express');
 const app = express();
+const port = 3000;
 
-/*
-Task:
-You need to build an API for a virtual assistant that provides customized responses.
+// Define the endpoint
+app.get('/assistant/greet', (req, res) => {
+    const name = req.query.name;
 
-Requirements:
-1. Create a GET endpoint at "/assistant/greet".
-2. The endpoint should accept a "name" as a query parameter (e.g., /assistant/greet?name=John).
-3. The API should return a JSON response with:
-   a. A personalized greeting using the name provided.
-   b. A cheerful message based on the current day of the week.
+    // Validate input
+    if (!name) {
+        return res.status(400).json({ error: "Name parameter is required" });
+    }
 
-Example Responses:
-- For Monday:
-  {
-    "welcomeMessage": "Hello, John! Welcome to our assistant app!",
-    "dayMessage": "Happy Monday! Start your week with energy!"
-  }
-- For Friday:
-  {
-    "welcomeMessage": "Hello, John! Welcome to our assistant app!",
-    "dayMessage": "It's Friday! The weekend is near!"
-  }
-- For other days:
-  {
-    "welcomeMessage": "Hello, John! Welcome to our assistant app!",
-    "dayMessage": "Have a wonderful day!"
-  }
+    // Determine the current day of the week
+    const daysOfWeek = [
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ];
+    const today = new Date();
+    const dayName = daysOfWeek[today.getDay()];
 
-Add the required logic below to complete the API.
-*/
+    // Set day-specific messages
+    let dayMessage;
+    if (dayName === "Monday") {
+        dayMessage = "Happy Monday! Start your week with energy!";
+    } else if (dayName === "Friday") {
+        dayMessage = "It's Friday! The weekend is near!";
+    } else {
+        dayMessage = "Have a wonderful day!";
+    }
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Virtual Assistant API is running on http://localhost:${PORT}`);
+    // Send the response
+    res.json({
+        welcomeMessage: `Hello, ${name}! Welcome to our assistant app!`,
+        dayMessage
+    });
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/assistant/greet?name=Rudhresh`);
 });
