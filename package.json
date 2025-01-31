@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "The **Virtual Assistant API** is designed to provide users with personalized responses based on their input and the day of the week. This API acts as the foundation for a virtual assistant app, delivering a **friendly greeting** and a **cheerful message** to enhance the user's experience.",
   "dependencies": {
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "node": "^20.18.1",
     "nodemon": "^3.1.7"
-  }
+  },
+  "keywords": []
 }
