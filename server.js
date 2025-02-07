@@ -32,7 +32,7 @@ Example Responses:
 
 Add the required logic below to complete the API.
 */
-app.get('/assistant/usergreet?name=hrenikindi',(req,res)=>{
+app.get('/assistant/usergreet',(req,res)=>{
   const name = req.query.name;
   let dayMessage;
 
